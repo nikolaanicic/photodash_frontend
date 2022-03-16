@@ -1,0 +1,11 @@
+.search-input {
+  width: 100%;
+  min-height: 2rem;
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 500;
+  background-color: #666464;
+  color: white;
+  display: flex;
+  padding: 0.5rem;
+}
