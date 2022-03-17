@@ -9,35 +9,51 @@ import { Button } from "../StyledButton/Button";
 import { InputError } from "../InputErrorComponent/InputError";
 
 interface SignUpData {
-  firstName: string;
-  lastName: string;
   username: string;
   password: string;
 }
 
-export const SignUp = () => {
+export const SignUp = (props: any) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
+    setError,
   } = useForm<SignUpData>();
 
-  const handleSignUpSubmit = ({
-    firstName,
-    lastName,
-    username,
-    password,
-  }: SignUpData) => {
-    if (errors.username !== undefined && errors.username.message !== undefined)
-      console.log(errors.username.message);
+  const handleSignUpSubmit = async ({ username, password }: SignUpData) => {
+    if (username !== "" && password !== "") {
+      let data = {
+        username: username,
+        password: password,
+      };
+      let reqOptions = {
+        method: "post",
+        body: JSON.stringify(data),
+        headers: { "content-type": "application/json" },
+      };
+
+      await fetch("/api/user/register", reqOptions)
+        .then(async (response) => {
+          if (response.status === 200) return Promise.resolve();
+          return Promise.reject(
+            "Username is taken or the password is too short"
+          );
+        })
+        .then(() => {
+          props.success();
+        })
+        .catch((data) => {
+          console.log(data);
+          setError("username", { type: "manual", message: data });
+        });
+    }
   };
 
   return (
     <div className="sign-up-container">
       <form onSubmit={handleSubmit(handleSignUpSubmit)}>
         {errors.username && InputError(errors.username.message)}
-
         <div className="field-container">
           <input
             {...register("username", { required: "Username is required" })}
@@ -47,35 +63,14 @@ export const SignUp = () => {
           ></input>
         </div>
         {errors.password && InputError(errors.password.message)}
-
         <div className="field-container">
           <input
             {...register("password", {
               required: "Password is required",
             })}
             className="form-input-field"
-            type="text"
+            type="password"
             placeholder="Password"
-          ></input>
-        </div>
-        {errors.firstName && InputError(errors.firstName.message)}
-
-        <div className="field-container">
-          <input
-            {...register("firstName", { required: "First Name is required" })}
-            className="form-input-field"
-            type="text"
-            placeholder="First Name"
-          ></input>
-        </div>
-        {errors.lastName && InputError(errors.lastName.message)}
-
-        <div className="field-container">
-          <input
-            {...register("lastName", { required: "Last Name is required" })}
-            className="form-input-field"
-            type="text"
-            placeholder="Last Name"
           ></input>
         </div>
         <div className="button-container">{Button("Sign Up")}</div>

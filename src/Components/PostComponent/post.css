@@ -1,0 +1,17 @@
+.post-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem;
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+}

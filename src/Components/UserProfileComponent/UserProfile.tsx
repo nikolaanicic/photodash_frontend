@@ -6,7 +6,7 @@ export const UserProfile = (posts?: any) => {
   const renderPostsGrid = (posts: any): JSX.Element => {
     return posts.map((x: any) => {
       return (
-        <Link to={`post/${x.id}`}>
+        <Link key={x.id} to={`post/${x.id}`}>
           <div className="post-grid-item" id={x.id}>
             <div className="grid-image">
               <img id={x.id} src={x.image} alt="slika"></img>

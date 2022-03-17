@@ -1,14 +1,31 @@
 .card-container {
-  width: auto;
+  width: fit-content;
+  min-width: 600px;
   height: auto;
-  max-width: 600px;
-  min-height: 300px;
-  min-width: 300px;
-  width: 20%;
   border: 1px solid gray;
   padding: 1rem;
   margin: 0 auto;
   margin-top: 3rem;
+  background-color: #050100;
+  text-align: center;
+}
+
+.pop-up-container {
+  height: auto;
+  max-width: 200px;
+  min-height: fit-content;
+  width: 10%;
+  min-width: fit-content;
+  border: 1px solid gray;
+  background-color: #050100;
+  position: fixed;
+  padding: 0.5rem;
+  text-align: center;
+  left: 45%;
+  right: 50%;
+  top: 30%;
+  bottom: 50%;
+  filter: none;
 }
 
 @media (max-width: 810px) {
