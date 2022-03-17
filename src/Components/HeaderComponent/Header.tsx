@@ -10,7 +10,7 @@ export const Header = () => {
   };
 
   return (
-    <>
+    <div className="col-container">
       <div className="header-container">
         <div className="col-1 logo-container">
           <Logo />
@@ -22,7 +22,7 @@ export const Header = () => {
           {Button("&#8801;", handleMenuButtonClick)}
         </div>
       </div>
-      <hr />
-    </>
+      <hr className="header-ruler" />
+    </div>
   );
 };

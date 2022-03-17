@@ -54,3 +54,16 @@
     margin-top: 0.4rem;
   }
 }
+
+.col-container {
+  display: flex;
+  padding: 0.3rem;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  background-color: #050100;
+}
+
+.header-ruler {
+  width: 100%;
+}

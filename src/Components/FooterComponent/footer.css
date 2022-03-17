@@ -4,24 +4,20 @@
   margin-bottom: 0;
   width: 100%;
   background-color: #050100;
-  position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;
-  margin-bottom: 10px;
-  align-items: center;
   justify-content: right;
 }
 
 .footer-container {
-  position: fixed;
+  position: sticky;
   bottom: 0px;
   left: 0px;
   right: 0px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
+  background-color: #050100;
+  width: 100%;
+  padding-top: 0.3rem;
 }
 
 .col-1 {

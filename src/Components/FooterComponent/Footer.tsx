@@ -1,12 +1,12 @@
 import "./footer.css";
 import { Button } from "../StyledButton/Button";
 import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
 
 export const Footer = () => {
   return (
     <>
       <div className="footer-container">
+        <hr />
         <div className="footer-container-row">
           <div className="col-1">
             <Link to="/home">{Button("&#8962;", () => {})}</Link>
