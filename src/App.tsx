@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header } from "./Components/HeaderComponent/Header";
@@ -7,8 +7,10 @@ import { UserProfile } from "./Components/UserProfileComponent/UserProfile";
 import { Login } from "./Components/LogInComponent/Login";
 import { SignUp } from "./Components/SignUpComponent/SignUp";
 import { Card } from "./Components/CardComponent/Card";
-import { Post } from "./Components/PostComponent/Post";
 import { CreatePost } from "./Components/CreatePostComponent/CreatePost";
+import { Home } from "./Components/HomeComponent/Home";
+import { GetUsername, IsLoggedIn } from "./Services/authService";
+import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [modal, setModal] = useState<JSX.Element | null>();
@@ -23,7 +25,13 @@ function App() {
   const toggleLogin = () => {
     setSignUpVisible(false);
     if (!loginVisible) {
-      setModal(<Login success={resetModal} />);
+      setModal(
+        <Login
+          success={() => {
+            resetModal();
+          }}
+        />
+      );
       setLoginVisible(true);
     } else {
       setModal(null);
@@ -55,9 +63,29 @@ function App() {
   return (
     <>
       {modal && Card(modal, true)}
+
       <BrowserRouter>
         <div className="App">
           {Header(toggleLogin, toggleSignUp)}
+
+          <Routes>
+            <Route
+              element={
+                <ProtectedRoute children={<Home />} isLoggedIn={IsLoggedIn()} />
+              }
+              path="/home"
+            />
+            <Route element={<div></div>} path="visitors" />
+            <Route
+              element={
+                <ProtectedRoute
+                  children={<UserProfile isSelf={true} />}
+                  isLoggedIn={IsLoggedIn()}
+                />
+              }
+              path={`/${GetUsername()}`}
+            />
+          </Routes>
           {Footer(togglePostForm)}
         </div>
       </BrowserRouter>

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import "./header.css";
 import { Logo } from "../LogoComponent/Logo";
 import { Button } from "../StyledButton/Button";
@@ -6,16 +5,6 @@ import { Search } from "../SearchComponent/Search";
 import { IsLoggedIn, LogUserOut } from "../../Services/authService";
 
 export const Header = (toggleLogin: any, toggleSignUp: any) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const checkLoggedIn = () => {
-    setIsLoggedIn(IsLoggedIn());
-  };
-
-  useEffect(() => {
-    checkLoggedIn();
-  }, [window.localStorage.token]);
-
   return (
     <div className="col-container">
       <div className="header-container">
@@ -23,15 +12,14 @@ export const Header = (toggleLogin: any, toggleSignUp: any) => {
           <Logo />
         </div>
         <div className="col-2 search-container">
-          <Search />
+          {IsLoggedIn() && <Search />}
         </div>
         <div className="col-1 menu-button-container">
           {Button(
-            isLoggedIn ? "Log Out" : "Log In",
-            isLoggedIn
+            IsLoggedIn() ? "Log Out" : "Log In",
+            IsLoggedIn()
               ? () => {
                   LogUserOut();
-                  checkLoggedIn();
                   toggleLogin();
                 }
               : () => {

@@ -26,9 +26,10 @@ export const Login = (props: any) => {
           return Promise.reject();
         })
         .then((data) => {
-          LogUserIn(data.token, data.role);
+          LogUserIn(data.token, data.role, data.username);
           console.log(data);
           props.success();
+          window.location.reload();
         })
         .catch(() => {
           setError("username", {

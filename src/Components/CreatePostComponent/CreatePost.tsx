@@ -14,37 +14,43 @@ export const CreatePost = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm<PostData>();
 
   const handlePosting = ({ image, description }: PostData) => {
     if (image !== undefined && image !== null) {
-      var reader = new FileReader();
-      reader.readAsDataURL(image[0]);
-      reader.onload = function () {
-        console.log(reader.result);
-      };
-
-      let data = {
-        image: reader.result,
-        description: description,
-        posted: new Date().toJSON(),
-      };
+      let data = new FormData();
+      data.append("image", image[0]);
+      data.append("description", description);
+      data.append("posted", new Date().toJSON());
 
       let reqOptions = {
         method: "post",
         headers: {
-          "content-type": "application/json",
           Authorization: GetToken(),
         },
-        body: JSON.stringify(data),
+        body: data,
       };
+
+      fetch("/api/posts", reqOptions)
+        .then((response) => {
+          if (response.status === 200) return Promise.resolve();
+          return Promise.reject();
+        })
+        .then((data) => {
+          console.log("ok");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handlePosting)}>
+      <form
+        onSubmit={handleSubmit(handlePosting)}
+        encType="multipart/form-data"
+      >
         <div className="field-container">
           <input
             {...register("image", { required: "Image is required" })}
