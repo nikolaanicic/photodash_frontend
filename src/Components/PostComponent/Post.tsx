@@ -2,49 +2,54 @@ import { Button } from "../StyledButton/Button";
 import "./post.css";
 import { Card } from "../CardComponent/Card";
 import { GetToken } from "../../Services/authService";
+import { useState } from "react";
 
 export const Post = ({
   path = "",
   id = "",
   likeCount = 0,
   description = "",
-  isLiked = false,
+  removeSelf = (id:string) =>{},
+  isMine = false
 }) => {
-  let commentPage = 1;
 
-  const handleGetComments = (postId: string) => {
-    let token = GetToken();
+  const [likes,setLikes] = useState(likeCount);
+  const [comments,setComments] = useState([]);
+  const [commentsPage,setCommentsPage] = useState(1);
+
+  const handleGetComments = (id: string) => {
 
     let reqOptions = {
       method: "get",
       headers: {
-        Authorization: token,
+        Authorization: GetToken(),
         "content-type": "application/json",
       },
     };
 
-    fetch(`api/post/${postId}/comments?pageNumber=${commentPage}`, reqOptions)
+    fetch(`api/post/${id}/comments?pageNumber=${commentsPage}`, reqOptions)
       .then((response) => {
         console.log(response);
         if (response.status === 200) return response.json();
         return Promise.reject(response.status);
       })
       .then((data) => {
+        setCommentsPage((p)=>p+1);
         console.log(data);
-        commentPage += 1;
       });
   };
 
-  const handleLikeUnlike = (postId: string, isLike: boolean) => {
+  const handleLike = () => {
     let reqOptions = {
-      method: "patch",
+      method: "get",
       headers: {
         Authorization: GetToken(),
+        "content-type": "application/json" ,
       },
     };
 
     fetch(
-      "/api/posts/" + (isLike ? "like" : "unlike") + `/${postId}`,
+      `/api/posts/like/${id}`,
       reqOptions
     )
       .then((response) => {
@@ -52,12 +57,35 @@ export const Post = ({
         return Promise.reject(response.status);
       })
       .then(() => {
-        isLiked = true;
+        console.log('liked');
+        setLikes((l)=>l+1);
+
       })
       .catch(() => {
-        console.log("Not found");
       });
   };
+
+
+  const handleDelete = async() =>
+  {
+    let reqOptions = {
+      method:"delete",
+      headers:{Authorization:GetToken()}
+    };
+
+
+    await fetch(`/api/posts/${id}`,reqOptions)
+    .then((response) =>
+    {
+      if(response.status === 204)
+        return Promise.resolve();
+      return Promise.reject();
+    }
+    ).then(()=>
+    {
+      removeSelf(id);
+    })
+  }
 
   const renderPost = () => {
     return (
@@ -65,9 +93,11 @@ export const Post = ({
         <div className="image-container">
           <img src={"/" + path} alt="slika"></img>
         </div>
+        <div className="description-container"><p className="description-text">{description}</p></div>
         <div className="row-container">
-          <div>{isLiked ? Button("&#9829;") : Button("&#x2715;")}</div>
+          <div>{Button(likes.toString(),handleLike) }</div>
           <div>{Button("&#128488;")}</div>
+          {isMine && <div>{Button("&#215;")}</div>}
         </div>
       </div>
     );

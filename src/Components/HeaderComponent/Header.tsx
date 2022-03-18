@@ -21,6 +21,7 @@ export const Header = (toggleLogin: any, toggleSignUp: any) => {
               ? () => {
                   LogUserOut();
                   toggleLogin();
+                  window.location.reload();
                 }
               : () => {
                   toggleLogin();

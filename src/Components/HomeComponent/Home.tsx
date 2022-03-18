@@ -37,6 +37,8 @@ export const Home = () => {
       .catch((err) => {
         console.log(err);
       });
+
+      console.log(posts);
   };
 
   window.onscroll = _.debounce(() => {
@@ -45,7 +47,7 @@ export const Home = () => {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop ===
+      window.innerHeight + document.documentElement.scrollTop  ===
       document.documentElement.offsetHeight
     )
       handleGetNewestPosts();
@@ -58,13 +60,21 @@ export const Home = () => {
         likeCount={post.likeCount as number}
         id={post.id as string}
         description={post.description as string}
+        removeSelf = {removePost}
       />
     );
   };
 
+  const removePost = (id:string) =>
+  {
+    setPosts(posts.filter((post:any)=>post.id !== id));
+  }
+
+
+
   useEffect(() => {
     handleGetNewestPosts();
-  });
+  },[]);
 
   return (
     <div className="scroll-container">

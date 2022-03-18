@@ -15,10 +15,12 @@ export const UserProfile = (props: any) => {
   const handleGetUserPosts = async () => {
     if (!hasNext || (totalPages !== 0 && page > totalPages)) return;
 
+    console.log("getting page" + page.toString());
+
     let reqOptions = {
       method: "get",
       headers: {
-        "content-type": "applicaiton/json",
+        "content-type": "application/json",
         Authorization: GetToken(),
       },
     };
@@ -34,9 +36,7 @@ export const UserProfile = (props: any) => {
       .then((data) => {
         if (totalPages === 0) setTotalPages(data.meta.totalPages);
         if (data.meta.hasNext === false) setHasNext(data.meta.hasNext);
-        setPosts((posts: any) => {
-          return [...posts, ...data.data];
-        });
+        setPosts([...posts,...data.data]);
         setPage((p) => p + 1);
       })
       .catch((err) => {
@@ -51,7 +51,7 @@ export const UserProfile = (props: any) => {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop ===
+      window.innerHeight + document.documentElement.scrollTop  ===
       document.documentElement.offsetHeight
     )
       handleGetUserPosts();
@@ -59,7 +59,7 @@ export const UserProfile = (props: any) => {
 
   useEffect(() => {
     handleGetUserPosts();
-  });
+  },[page]);
 
   const renderPostsGrid = (posts: any): JSX.Element => {
     return posts.map((x: any) => {

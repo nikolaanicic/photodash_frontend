@@ -19,6 +19,8 @@ export const LogUserOut = () => {
   window.localStorage.setItem(tokenKey, "");
   window.localStorage.setItem(roleKey, "");
   window.localStorage.setItem(unameKey, "");
+  history.push("/visitors");
+
 };
 
 export const GetUsername = () => {

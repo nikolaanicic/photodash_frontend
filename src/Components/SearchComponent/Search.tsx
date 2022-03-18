@@ -12,13 +12,11 @@ export const Search = (e: any) => {
 
   const [searchParams] = useSearchParams();
   const { register, handleSubmit, reset } = useForm<FormData>();
-
   const usernameForSearch = searchParams.get("username") || "";
 
   const handleSearchSubmit = ({ username }: FormData) => {
     if (username !== "") {
-      //   navigate("/search?username=`${username}`");
-      console.log(username);
+      navigate("/search?username" + `=${username}`);
       reset({ username: "" });
     }
   };

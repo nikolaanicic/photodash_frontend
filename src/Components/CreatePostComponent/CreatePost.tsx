@@ -37,7 +37,7 @@ export const CreatePost = () => {
           return Promise.reject();
         })
         .then((data) => {
-          console.log("ok");
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);

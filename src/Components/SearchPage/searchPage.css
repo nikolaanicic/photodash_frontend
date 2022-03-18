@@ -1,0 +1,20 @@
+.user-card-container
+{
+    display: flex;
+    flex-direction:row;
+    color:white;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem;
+}
+
+
+.col-1
+{
+    width:25%;
+}
+
+.col-2
+{
+    width:50%;
+}

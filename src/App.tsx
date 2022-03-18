@@ -11,6 +11,7 @@ import { CreatePost } from "./Components/CreatePostComponent/CreatePost";
 import { Home } from "./Components/HomeComponent/Home";
 import { GetUsername, IsLoggedIn } from "./Services/authService";
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
+import { SearchPage } from "./Components/SearchPage/SearchPage";
 
 function App() {
   const [modal, setModal] = useState<JSX.Element | null>();
@@ -69,12 +70,7 @@ function App() {
           {Header(toggleLogin, toggleSignUp)}
 
           <Routes>
-            <Route
-              element={
-                <ProtectedRoute children={<Home />} isLoggedIn={IsLoggedIn()} />
-              }
-              path="/home"
-            />
+
             <Route element={<div></div>} path="visitors" />
             <Route
               element={
@@ -84,6 +80,13 @@ function App() {
                 />
               }
               path={`/${GetUsername()}`}
+            />
+            <Route element={<ProtectedRoute children={<SearchPage/>} isLoggedIn={IsLoggedIn()}/>} path="search"/>
+            <Route
+              element={
+                <ProtectedRoute children={<Home />} isLoggedIn={IsLoggedIn()} />
+              }
+              path="*"
             />
           </Routes>
           {Footer(togglePostForm)}
